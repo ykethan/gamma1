@@ -12,11 +12,6 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization((allow) => [allow.guest()]),
-  Todo1: a
-    .model({
-      content: a.string(),
-    })
-    .authorization((allow) => [allow.owner()]),
   Member: a
     .model({
       name: a.string().required(),
@@ -33,6 +28,62 @@ const schema = a.schema({
       // 3. Create a hasMany relationship with the reference field
       //    from the `Member`s model.
       members: a.hasMany("Member", "teamId"),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  Cart: a.model({
+    items: a.string().required().array(),
+    // 1. Create reference field
+    customerId: a.id(),
+    // 2. Create relationship field with the reference field
+    customer: a.belongsTo("Customer", "customerId"),
+  }),
+  Customer: a.model({
+    name: a.string(),
+    // 3. Create relationship field with the reference field
+    //    from the Cart model
+    activeCart: a.hasOne("Cart", "customerId"),
+  }),
+  PostTag: a.model({
+    // 1. Create reference fields to both ends of
+    //    the many-to-many relationship
+    postId: a.id().required(),
+    tagId: a.id().required(),
+    // 2. Create relationship fields to both ends of
+    //    the many-to-many relationship using their
+    //    respective reference fields
+    post: a.belongsTo("Post", "postId"),
+    tag: a.belongsTo("Tag", "tagId"),
+  }),
+  Post: a.model({
+    title: a.string(),
+    content: a.string(),
+    // 3. Add relationship field to the join model
+    //    with the reference of `postId`
+    tags: a.hasMany("PostTag", "postId"),
+  }),
+  Tag: a.model({
+    name: a.string(),
+    // 4. Add relationship field to the join model
+    //    with the reference of `tagId`
+    posts: a.hasMany("PostTag", "tagId"),
+  }),
+
+  Poster: a
+    .model({
+      title: a.string().required(),
+      content: a.string().required(),
+      authorId: a.id(),
+      author: a.belongsTo("Person", "authorId"),
+      editorId: a.id(),
+      editor: a.belongsTo("Person", "editorId"),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+  Person: a
+    .model({
+      name: a.string(),
+      editedPosts: a.hasMany("Poster", "editorId"),
+      authoredPosts: a.hasMany("Poster", "authorId"),
     })
     .authorization((allow) => [allow.publicApiKey()]),
 });

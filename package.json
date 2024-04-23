@@ -9,23 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "aws-amplify": "^6.0.28",
-    "next": "14.2.0",
-    "react": "^18",
-    "react-dom": "^18"
+    "aws-amplify": "^6.0.29",
+    "next": "14.2.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@aws-amplify/backend": "^0.13.0",
-    "@aws-amplify/backend-cli": "^0.12.0",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@aws-amplify/backend": "^0.13.1",
+    "@aws-amplify/backend-cli": "^0.12.1",
+    "@types/node": "^20.12.7",
+    "@types/react": "^18.2.79",
+    "@types/react-dom": "^18.2.25",
     "aws-cdk": "^2.138.0",
     "aws-cdk-lib": "^2.138.0",
     "constructs": "^10.3.0",
     "esbuild": "^0.20.2",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.2",
     "tsx": "^4.7.2",
     "typescript": "^5.4.5"
   }
