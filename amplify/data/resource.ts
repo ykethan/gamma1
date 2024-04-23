@@ -31,13 +31,15 @@ const schema = a.schema({
     })
     .authorization((allow) => [allow.publicApiKey()]),
 
-  Cart: a.model({
-    items: a.string().required().array(),
-    // 1. Create reference field
-    customerId: a.id(),
-    // 2. Create relationship field with the reference field
-    customer: a.belongsTo("Customer", "customerId"),
-  }),
+  Cart: a
+    .model({
+      items: a.string().required().array(),
+      // 1. Create reference field
+      customerId: a.id(),
+      // 2. Create relationship field with the reference field
+      customer: a.belongsTo("Customer", "customerId"),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
   Customer: a
     .model({
       name: a.string(),
