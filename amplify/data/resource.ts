@@ -96,6 +96,22 @@ const schema = a.schema({
       authoredPosts: a.hasMany("Poster", "authorId"),
     })
     .authorization((allow) => [allow.publicApiKey()]),
+
+  Order: a
+    .model({
+      orderNumber: a.string().required(),
+      customer: a.time(),
+      aa: a.url(),
+      bb: a.email(),
+      cc: a.phone(),
+      dd: a.json(),
+      ee: a.boolean(),
+      ff: a.datetime(),
+      gg: a.integer(),
+      hh: a.float(),
+      ii: a.ipAddress(),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
