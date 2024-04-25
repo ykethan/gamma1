@@ -112,6 +112,25 @@ const schema = a.schema({
       ii: a.ipAddress(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
+
+  Product: a
+    .model({
+      name: a.string().required(),
+      authorName: a.string(),
+      authorDoB: a.date(),
+      author: a.belongsTo("Personorb", ["authorName", "authorDoB"]),
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  Personorb: a
+    .model({
+      name: a.string().required(),
+      age: a.integer(),
+      dateOfBirth: a.date().required(),
+      authoredPosts: a.hasMany("Product", ["authorName", "authorDoB"]),
+    })
+    .identifier(["name", "dateOfBirth"])
+    .authorization((allow) => [allow.publicApiKey()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
