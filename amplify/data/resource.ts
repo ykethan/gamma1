@@ -131,6 +131,16 @@ const schema = a.schema({
     })
     .identifier(["name", "dateOfBirth"])
     .authorization((allow) => [allow.publicApiKey()]),
+
+  somea: a
+    .model({
+      name: a.string(),
+      phoneNumber: a.phone(),
+      accountRepresentativeId: a.id().required(),
+    })
+
+    .secondaryIndexes((index) => [index("accountRepresentativeId")])
+    .authorization((allow) => [allow.publicApiKey()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
