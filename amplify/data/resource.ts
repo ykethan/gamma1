@@ -139,7 +139,9 @@ const schema = a.schema({
       accountRepresentativeId: a.id().required(),
     })
 
-    .secondaryIndexes((index) => [index("accountRepresentativeId")])
+    .secondaryIndexes((index) => [
+      index("accountRepresentativeId").queryField("listByRep"),
+    ])
     .authorization((allow) => [allow.publicApiKey()]),
 });
 
