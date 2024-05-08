@@ -79,23 +79,23 @@ const schema = a.schema({
     })
     .authorization((allow) => [allow.publicApiKey()]),
 
-  Poster: a
-    .model({
-      title: a.string().required(),
-      content: a.string().required(),
-      authorId: a.id(),
-      author: a.belongsTo("Person", "authorId"),
-      editorId: a.id(),
-      editor: a.belongsTo("Person", "editorId"),
-    })
-    .authorization((allow) => [allow.publicApiKey()]),
-  Person: a
-    .model({
-      name: a.string(),
-      editedPosts: a.hasMany("Poster", "editorId"),
-      authoredPosts: a.hasMany("Poster", "authorId"),
-    })
-    .authorization((allow) => [allow.publicApiKey()]),
+  // Poster: a
+  //   .model({
+  //     title: a.string().required(),
+  //     content: a.string().required(),
+  //     authorId: a.id(),
+  //     author: a.belongsTo("Person", "authorId"),
+  //     editorId: a.id(),
+  //     editor: a.belongsTo("Person", "editorId"),
+  //   })
+  //   .authorization((allow) => [allow.publicApiKey()]),
+  // Person: a
+  //   .model({
+  //     name: a.string(),
+  //     editedPosts: a.hasMany("Poster", "editorId"),
+  //     authoredPosts: a.hasMany("Poster", "authorId"),
+  //   })
+  //   .authorization((allow) => [allow.publicApiKey()]),
 
   Order: a
     .model({
@@ -150,9 +150,9 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: "iam",
+    defaultAuthorizationMode: "apiKey",
     apiKeyAuthorizationMode: {
-      expiresInDays: 17,
+      expiresInDays: 30,
     },
   },
 });
