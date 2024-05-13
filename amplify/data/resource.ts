@@ -143,6 +143,28 @@ const schema = a.schema({
       index("accountRepresentativeId").queryField("listByRep"),
     ])
     .authorization((allow) => [allow.publicApiKey()]),
+
+  User: a
+    .model({
+      id: a.id().required(),
+      birthdate: a.string().required(),
+      firstName: a.string().required(),
+      lastName: a.string().required(),
+      username: a.string().required(),
+      phoneNumber: a.phone().required(), // this is the one not showing up, I could make it a a.string().required() and it will work
+      pushToken: a.string(),
+      profileImage: a.url(),
+      profileImageBlurhash: a.string(),
+      searchTerm: a.string().required(),
+    })
+    .secondaryIndexes((index) => [
+      index("phoneNumber").queryField("listUsersByPhoneNumber"),
+      index("searchTerm").queryField("listUsersBySearchTerm").sortKeys(["id"]),
+    ])
+    .authorization((allow) => [
+      allow.owner(),
+      allow.publicApiKey().to(["read"]),
+    ]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
