@@ -151,11 +151,13 @@ const schema = a.schema({
       firstName: a.string().required(),
       lastName: a.string().required(),
       username: a.string().required(),
-      phoneNumber: a.phone().required(), // this is the one not showing up, I could make it a a.string().required() and it will work
+      phoneNumber: a.phone().required(),
       pushToken: a.string(),
       profileImage: a.url(),
       profileImageBlurhash: a.string(),
       searchTerm: a.string().required(),
+      sentFriendships: a.hasMany("Friendship", "senderId"),
+      receivedFriendships: a.hasMany("Friendship", "receiverId"),
     })
     .secondaryIndexes((index) => [
       index("phoneNumber").queryField("listUsersByPhoneNumber"),
@@ -164,6 +166,27 @@ const schema = a.schema({
     .authorization((allow) => [
       allow.owner(),
       allow.publicApiKey().to(["read"]),
+    ]),
+
+  Friendship: a
+    .model({
+      id: a.id().required(),
+      receiverId: a.id().required(),
+      receiver: a.belongsTo("User", "receiverId"),
+      senderId: a.id().required(),
+      sender: a.belongsTo("User", "senderId"),
+      status: a.ref("FriendStatus").required(),
+    })
+    .authorization((allow) => [allow.publicApiKey()])
+    .secondaryIndexes((index) => [
+      index("senderId")
+        .name("bySender")
+        .sortKeys(["receiverId"])
+        .queryField("listFriendshipsBySenderId"),
+      index("receiverId")
+        .name("byReceiver")
+        .sortKeys(["senderId"])
+        .queryField("listFriendshipsByReceiverId"),
     ]),
 });
 
