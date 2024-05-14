@@ -19,12 +19,12 @@ export default function Home() {
     phoneNumber: string
   ) => {
     await client.models.User.create({
-      birthdate: "02-04-1998",
-      firstName: "kdasdi",
-      lastName: "kashi",
-      username: "jada",
-      phoneNumber: "+1 416-996-9581 ",
-      searchTerm: "testterm",
+      birthdate: "22-06-1988",
+      firstName: "test",
+      lastName: "test",
+      username: "test",
+      phoneNumber: "+1 413-992-9522 ",
+      searchTerm: "tesr",
     });
   };
 
